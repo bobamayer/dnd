@@ -79,6 +79,9 @@
       classSelect.value = data.cls || 'rogue';
       goalInput.value = data.goal || '';
       if (data.id) row.dataset.playerId = String(data.id);
+    } else {
+      const opt = classSelect.selectedOptions[0];
+      if (opt && opt.dataset.goal) goalInput.value = opt.dataset.goal;
     }
 
     classSelect.addEventListener('change', () => {
