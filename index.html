@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Ledger — Dungeon! Treasure Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <h1 class="site-title"><span class="torch">🔥</span> The Ledger <span class="torch">🔥</span></h1>
+  <p class="site-sub">a treasure tracker for Dungeon!</p>
+</header>
+
+<main id="app">
+
+  <!-- SETUP SCREEN -->
+  <section id="setup-screen" class="screen">
+    <div class="panel">
+      <h2 class="panel-title">Assemble the Party</h2>
+      <p class="panel-hint">Add one row per adventurer you're keeping score for. Everyone else can open this same page on their own device and track themselves.</p>
+
+      <div id="roster-rows" class="roster-rows"></div>
+
+      <button id="add-row-btn" type="button" class="btn btn-ghost btn-block">+ Add Another Adventurer</button>
+
+      <button id="start-btn" type="button" class="btn btn-gold btn-block btn-large">Begin the Delve</button>
+      <p id="setup-error" class="form-error" hidden></p>
+    </div>
+  </section>
+
+  <!-- GAME SCREEN -->
+  <section id="game-screen" class="screen" hidden>
+    <div class="toolbar">
+      <button id="edit-roster-btn" type="button" class="btn btn-ghost">Edit Roster</button>
+      <button id="reset-scores-btn" type="button" class="btn btn-ghost">Reset Treasure</button>
+      <button id="new-game-btn" type="button" class="btn btn-ember">New Game</button>
+    </div>
+
+    <div id="cards-grid" class="cards-grid"></div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p>Progress saves automatically on this device.</p>
+</footer>
+
+<template id="roster-row-template">
+  <div class="roster-row" data-row>
+    <input type="text" class="row-name" placeholder="Adventurer name" maxlength="24">
+    <select class="row-class">
+      <option value="rogue" data-goal="10000">Rogue — 10,000 gp</option>
+      <option value="cleric" data-goal="10000">Cleric — 10,000 gp</option>
+      <option value="fighter" data-goal="20000">Fighter — 20,000 gp</option>
+      <option value="wizard" data-goal="30000">Wizard — 30,000 gp</option>
+      <option value="custom" data-goal="">Custom goal…</option>
+    </select>
+    <input type="number" class="row-goal" min="1" step="1" placeholder="Goal (gp)" inputmode="numeric">
+    <button type="button" class="row-remove" aria-label="Remove adventurer" title="Remove">✕</button>
+  </div>
+</template>
+
+<template id="card-template">
+  <article class="card" data-card>
+    <div class="card-top">
+      <div class="card-id">
+        <h3 class="card-name" data-name></h3>
+        <span class="card-class" data-class></span>
+      </div>
+      <svg class="gem" viewBox="0 0 100 120" aria-hidden="true">
+        <defs>
+          <clipPath data-gem-clip><polygon points="50,4 90,40 74,116 26,116 10,40"/></clipPath>
+          <linearGradient data-gem-gradient x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0%" stop-color="#C99A3D"/>
+            <stop offset="100%" stop-color="#F2D480"/>
+          </linearGradient>
+        </defs>
+        <polygon class="gem-bg" points="50,4 90,40 74,116 26,116 10,40"/>
+        <g data-gem-fill-group>
+          <rect class="gem-fill" data-gem-fill x="0" y="120" width="100" height="0"/>
+        </g>
+        <polygon class="gem-outline" points="50,4 90,40 74,116 26,116 10,40"/>
+      </svg>
+    </div>
+
+    <div class="treasure-readout">
+      <span class="treasure-amount" data-amount>0</span>
+      <span class="treasure-unit">gp</span>
+    </div>
+
+    <div class="progress-track">
+      <div class="progress-fill" data-progress></div>
+    </div>
+    <div class="progress-label">
+      <span data-progress-text>0 / 0 gp</span>
+      <span class="escaped-badge" data-escaped-badge hidden>ESCAPED THE DUNGEON!</span>
+    </div>
+
+    <div class="amount-controls">
+      <label class="amount-label" data-amount-label-for>
+        Amount
+        <input type="number" class="amount-input" data-amount-input min="0" step="1" inputmode="numeric" value="100">
+      </label>
+      <div class="amount-buttons">
+        <button type="button" class="btn btn-ember btn-square" data-subtract-btn aria-label="Subtract treasure">−</button>
+        <button type="button" class="btn btn-gold btn-square" data-add-btn aria-label="Add treasure">+</button>
+      </div>
+    </div>
+
+    <div class="chip-row" data-chip-row>
+      <button type="button" class="chip" data-chip="10">10</button>
+      <button type="button" class="chip" data-chip="50">50</button>
+      <button type="button" class="chip" data-chip="100">100</button>
+      <button type="button" class="chip" data-chip="500">500</button>
+      <button type="button" class="chip" data-chip="1000">1000</button>
+      <button type="button" class="chip" data-chip="2500">2500</button>
+    </div>
+
+    <div class="card-footer">
+      <button type="button" class="btn btn-ghost btn-small" data-edit-goal-btn>Edit goal</button>
+      <button type="button" class="btn btn-ghost btn-small" data-remove-card-btn>Remove</button>
+    </div>
+  </article>
+</template>
+
+<script src="script.js"></script>
+</body>
+</html>
